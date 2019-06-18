@@ -1,0 +1,35 @@
+---
+- name: Remove a few Windows VMs
+  hosts: all
+  gather_facts: no
+
+  tasks:
+  - name: remove windows VMs
+    ec2:
+      region: us-east-1
+      image: ami-0477b9335a5a75438
+      instance_type: t3.medium
+      instance_id: "{{ec2_id}}"
+      state: absent
+      wait: yes
+      wait_timeout: 500
+      instance_tags: 
+        Owner: YOURNAMEHERE
+        Name: VMNAMEHERE
+      monitoring: no
+      #group: sg-06fa85ba7dca0f608
+      group: YOURSECURITYGROUPNAMEHERE
+      vpc_subnet_id: YOURSUBNETIDHERE
+      assign_public_ip: yes
+      user_data: "{{ lookup('template', 'win_ec2_user_data.j2', template_vars=dict(vm_name='few')) }}"
+      termination_protection: no
+      keypair: YOURKEYPAIRHERE
+    delegate_to: localhost
+
+      
+      # Borrowed heavily from youtube tutorial https://youtu.be/VRO9ZdH6Cbg
+
+      # ansible_connection: winrm
+      # ansible_winrm_transport: credssp
+      # ansible_winrm_server_cert_validation: ignore
+      # ansible_port: 5986

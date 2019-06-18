@@ -1,0 +1,33 @@
+---
+- name: Remove a few Centos VMs
+  hosts: all
+  gather_facts: no
+
+  tasks:
+  - name: remove Centos VMs
+    ec2:
+      region: us-east-1
+      image: ami-4bf3d731
+      instance_type: t2.micro
+      instance_id: "{{ec2_id}}"
+      # ^that line is the most important one in the file the rest is boilerplate
+      # That line tells it which AWS EC2 ID to terminate
+      wait: yes
+      wait_timeout: 500
+      instance_tags: 
+        Owner: YOURNAMEHERE
+        Name: VMNAMEHERE
+      monitoring: no
+      group: YOURSECURITYGROUPNAMEHERE
+      vpc_subnet_id: YOURSUBNETIDHERE
+      assign_public_ip: yes
+      termination_protection: no
+      keypair: frednogeorge
+      state: absent
+      # ^ state: absent should remove the instances
+    delegate_to: localhost
+      
+      # Borrowed heavily from youtube tutorial https://youtu.be/VRO9ZdH6Cbg
+
+      #
+      

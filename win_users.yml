@@ -1,0 +1,19 @@
+---
+- name: Create some windows users
+  hosts: platform_windows
+  # that's an aws ec2 auto group
+  # become: yes
+  # we'll actually login as admin so become isn't really necesary
+
+  tasks:
+  - name: Add medberry
+    win_user:
+      name: medberry
+      state: present
+      password: Ch@ngeM3
+  - name: Add Aaron Davis
+    win_user:
+      name: aadavis
+      state: present
+      password: Ch@ngeM3
+        

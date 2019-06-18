@@ -1,0 +1,18 @@
+---
+- name: Remove some windows users
+  hosts: platform_windows
+  # that's an aws ec2 auto group
+  become: yes
+  # we'll actually login as admin so become isn't really necesary
+
+  tasks:
+  - name: Remove medberry
+    win_user:
+      name: medberry
+      state: absent
+
+  - name: Add Aaron Davis
+    win_user:
+      name: aadavis
+      state: absent
+        
